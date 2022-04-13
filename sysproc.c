@@ -16,15 +16,34 @@ sys_fork(void)
 int
 sys_exit(void)
 {
-  exit();
-  return 0;  // not reached
+    int status;
+    argint(0, &status); //pass an integer into the kernel
+    exit(status);
+    return 0; // not reached
 }
 
 int
 sys_wait(void)
 {
-  return wait();
+    int *status;
+    if(argptr(0, (void*)&status, sizeof(status)) < 0) { //check for valid status
+        //waits for child to finish executing, then goes back to parent to finish the process
+        return -1; //no child exists
+    }
+
+  return wait(status);
 }
+
+sys_wait(int* status)
+{
+    if(argptr(0, (void*)&status, sizeof(status)) < 0) { //check for valid status
+        //waits for child to finish executing, then goes back to parent to finish the process
+        return -1; //no child exists
+    }
+
+    return wait(status);
+}
+
 
 int
 sys_kill(void)
@@ -83,9 +102,14 @@ int
 sys_uptime(void)
 {
   uint xticks;
-
   acquire(&tickslock);
   xticks = ticks;
   release(&tickslock);
   return xticks;
+}
+
+int
+sys_hello(void) {
+    hello();
+    return 0;
 }
