@@ -30,18 +30,8 @@ sys_wait(void)
         //waits for child to finish executing, then goes back to parent to finish the process
         return -1; //no child exists
     }
-
-  return wait(status);
-}
-
-sys_wait(int* status)
-{
-    if(argptr(0, (void*)&status, sizeof(status)) < 0) { //check for valid status
-        //waits for child to finish executing, then goes back to parent to finish the process
-        return -1; //no child exists
-    }
-
-    return wait(status);
+  return wait(status); //return the terminated child exit status by passing
+                        // in the status pointer to wait function
 }
 
 
@@ -108,6 +98,15 @@ sys_uptime(void)
   return xticks;
 }
 
+int sys_waitpid(void) {
+    int pid;
+    argint(0, &pid);
+    int *status;
+    if(argptr(1, (void*)&status, sizeof(status)) < 0) { //Check if process does not exist
+        return -1;
+    }
+    return waitpid(pid, status, 0);
+}
 int
 sys_hello(void) {
     hello();
