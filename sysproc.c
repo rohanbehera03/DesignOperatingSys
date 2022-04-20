@@ -17,7 +17,7 @@ int
 sys_exit(void)
 {
     int status;
-    argint(0, &status); //pass an integer into the kernel
+    argint(0, &status); //pass an integer into the kernel(pos. 0)
     exit(status);
     return 0; // not reached
 }
@@ -32,6 +32,25 @@ sys_wait(void)
     }
   return wait(status); //return the terminated child exit status by passing
                         // in the status pointer to wait function
+}
+
+int
+sys_waitpid(void) {
+    int pid;
+    // pass argument into kernel function using argint
+    // get first pid(index 0) if its <0, return -1
+    if (argint(0, &pid) < 0){
+        return -1;
+    }
+    int *status;
+    //system call as ptr, check if its in address space
+    // also need to check if < 0
+    if(argptr(1, (void*)&status, sizeof(status)) < 0) {
+        //Check if process does not exist
+        return -1;
+    }
+    // call waitpid with the pid and status
+    return waitpid(pid, status, 0);
 }
 
 
@@ -98,15 +117,6 @@ sys_uptime(void)
   return xticks;
 }
 
-int sys_waitpid(void) {
-    int pid;
-    argint(0, &pid);
-    int *status;
-    if(argptr(1, (void*)&status, sizeof(status)) < 0) { //Check if process does not exist
-        return -1;
-    }
-    return waitpid(pid, status, 0);
-}
 int
 sys_hello(void) {
     hello();
