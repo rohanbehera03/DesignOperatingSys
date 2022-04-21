@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="SshConfigs">
+    <configs>
+      <sshConfig authType="PASSWORD" host="sledge.cs.ucr.edu" id="cb00e363-25b9-45d2-aa8d-eeb6a6f625db" port="22" nameFormat="DESCRIPTIVE" username="rbehe002" useOpenSSHConfig="true" />
+    </configs>
+  </component>
+</project>
