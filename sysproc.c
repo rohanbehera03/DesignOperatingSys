@@ -14,9 +14,8 @@ sys_fork(void)
 }
 
 int
-sys_exit(void)
+sys_exit(int status)
 {
-    int status;
     argint(0, &status); //pass an integer into the kernel(pos. 0)
     exit(status);
     return 0; // not reached
