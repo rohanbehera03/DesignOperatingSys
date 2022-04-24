@@ -117,7 +117,8 @@ sys_uptime(void)
 }
 
 int
-sys_hello(void) {
-    hello();
-    return 0;
+sys_add(void) {
+    int a = 1;
+    int b = 2020;
+    return a+b;
 }

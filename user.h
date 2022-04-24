@@ -24,7 +24,7 @@ int getpid(void);
 char* sbrk(int);
 int sleep(int);
 int uptime(void);
-int hello(void);
+int add(void);
 void lab1test(void);
 
 // ulib.c
